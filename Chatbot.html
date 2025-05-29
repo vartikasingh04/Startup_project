@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 400px;
+      background-color: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+      background-color: #4b6cb7;
+      padding: 15px;
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      display: flex;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message .bubble {
+      max-width: 70%;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .message.bot .bubble {
+      background-color: #eee;
+      color: #333;
+    }
+
+    .message.user .bubble {
+      background-color: #4b6cb7;
+      color: #fff;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .chat-input button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #4b6cb7;
+      color: white;
+      cursor: pointer;
+    }
+
+    .chat-input button:hover {
+      background-color: #4056a1;
+    }
+    #start_greet{
+        background-color: slategrey;
+        height: 100px;
+        width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-header">MindCare Chatbot</div>
+    <div class="chat-box" id="chatBox">
+        <span id="start_greet">Hii there 👋🏻<br>How can i help you</span>
+      <!-- Chat messages will go here -->
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type a message..." />
+      <button onclick="sendMessage()" style="background-color: white;"><img src="image/send.png" alt=""height="30px" width="30px"></button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+
+    function sendMessage() {
+      const message = userInput.value.trim();
+      if (message === "") return;
+
+      appendMessage("user", message);
+      userInput.value = "";
+      setTimeout(() => {
+        botReply(message);
+      }, 500);
+    }
+
+    function appendMessage(sender, message) {
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("message", sender);
+      messageElement.innerHTML = `<div class="bubble">${message}</div>`;
+      chatBox.appendChild(messageElement);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function botReply(userMsg) {
+      let reply = "I'm just a simple bot!";
+      if (userMsg.toLowerCase().includes("hello")) {
+        reply = "Hi there! How can I help you today?";
+      } else if (userMsg.toLowerCase().includes("bye")) {
+        reply = "Goodbye! Have a great day!";
+      }
+      appendMessage("bot", reply);
+    }
+
+    userInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+
+</html>
